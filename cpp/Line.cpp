@@ -1,7 +1,7 @@
 #include "Line.h"
 
-VecPt CLine::ToPoints() {
-    VecPt ptVec;
+std::vector<Point> Line::ToPoints() {
+    std::vector<Point> ptVec;
 
     // 因为要计算斜率，所以先判断在x方向，起点终点是否重合
     if (m_start.x == m_end.x) {
@@ -11,11 +11,11 @@ VecPt CLine::ToPoints() {
 
         if (m_start.y < m_end.y) {
             for (y = m_start.y; y <= m_end.y; y++) {
-                ptVec.push_back(CPoint(x, y, m_color));
+                ptVec.push_back(Point(x, y, m_color));
             }
         } else {
             for (y = m_end.y; y <= m_start.y; y++) {
-                ptVec.push_back(CPoint(x, y, m_color));
+                ptVec.push_back(Point(x, y, m_color));
             }
         }
 
@@ -32,13 +32,13 @@ VecPt CLine::ToPoints() {
                 for (x = m_start.x; x <= m_end.x; x++) {
                     // 计算y
                     y = slope * (x - m_start.x) + m_start.y;
-                    ptVec.push_back(CPoint(x, y, m_color));
+                    ptVec.push_back(Point(x, y, m_color));
                 }
             } else {
                 for (x = m_end.x; x <= m_start.x; x++) {
                     // 计算y
                     y = slope * (x - m_end.x) + m_end.y;
-                    ptVec.push_back(CPoint(x, y, m_color));
+                    ptVec.push_back(Point(x, y, m_color));
                 }
             }
         } else {
@@ -46,13 +46,13 @@ VecPt CLine::ToPoints() {
                 for (y = m_start.y; y <= m_end.y; y++) {
                     // 计算x
                     x = (y - m_start.y) / slope + m_start.x;
-                    ptVec.push_back(CPoint(x, y, m_color));
+                    ptVec.push_back(Point(x, y, m_color));
                 }
             } else {
                 for (y = m_end.y; y <= m_start.y; y++) {
                     // 计算x
                     x = (y - m_end.y) / slope + m_end.x;
-                    ptVec.push_back(CPoint(x, y, m_color));
+                    ptVec.push_back(Point(x, y, m_color));
                 }
             }
         }

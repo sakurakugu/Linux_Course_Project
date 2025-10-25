@@ -21,10 +21,10 @@ int main(int argc, char *argv[]) {
     framebuffer.Init();
 
     // 绘制分形龙
-    CPoint start = CPoint(200, 200);
-    CPoint end = CPoint(400, 400);
+    Point start = Point(200, 200);
+    Point end = Point(400, 400);
 
-    CFractalDragon fractalDragon(start, end, step, CColor(0, 255, 0));
+    FractalDragon fractalDragon(start, end, step, Color(0, 255, 0));
 
     framebuffer.DrawPoints(fractalDragon.GetPoints());
 

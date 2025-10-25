@@ -3,34 +3,29 @@
 #include "Color.h"
 #include <iostream>
 #include <vector>
-using namespace std;
+#include <numbers>
 
-#define PI 3.1415926
-
-class CPoint {
+class Point {
   public:
-    CPoint() {
+    Point() {
         x = 0;
         y = 0;
     };
 
-    CPoint(double xx, double yy, CColor cc = CColor(0, 0, 255)) {
-        x = xx;
-        y = yy;
-        color = cc;
+    Point(double x, double y, Color c = Color(0, 0, 255)) {
+        this->x = x;
+        this->y = y;
+        color = c;
     };
 
-    void Set(double xx, double yy, CColor cc = CColor(0, 0, 255)) {
-        x = xx;
-        y = yy;
-        color = cc;
+    void Set(double x, double y, Color c = Color(0, 0, 255)) {
+        this->x = x;
+        this->y = y;
+        color = c;
     };
 
   public:
     double x;
     double y;
-    CColor color;
+    Color color;
 };
-
-// 点vector，简单的认为是一个点的数组类型
-typedef vector<CPoint> VecPt;

@@ -2,24 +2,24 @@
 
 #include "Geometry.h"
 
-class CLine : public CGeometry {
+class Line : public Geometry {
   public:
-    CLine(CPoint start, CPoint end, CColor cc) {
+    Line(Point start, Point end, Color cc) {
         m_start = start;
         m_end = end;
         m_color = cc;
     };
 
-    void Set(CPoint start, CPoint end, CColor cc) {
+    void Set(Point start, Point end, Color cc) {
         m_start = start;
         m_end = end;
         m_color = cc;
     };
 
   protected:
-    virtual VecPt ToPoints();
+    virtual std::vector<Point> ToPoints();
 
   protected:
-    CPoint m_start;
-    CPoint m_end;
+    Point m_start;
+    Point m_end;
 };

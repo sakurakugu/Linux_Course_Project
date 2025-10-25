@@ -78,11 +78,11 @@ int CFramebuffer::GetHeight() {
     return vinfo.yres;
 }
 
-CPoint CFramebuffer::GetCenter() {
-    return CPoint(vinfo.xres / 2, vinfo.yres / 2);
+Point CFramebuffer::GetCenter() {
+    return Point(vinfo.xres / 2, vinfo.yres / 2);
 }
 
-void CFramebuffer::DrawPoint(CPoint pt) //(x.y) 是坐标
+void CFramebuffer::DrawPoint(Point pt) //(x.y) 是坐标
 {
     // 防止越界
     if (pt.x < 0 || pt.y < 0 || pt.x > vinfo.xres - 1 || pt.y > vinfo.yres - 1) {
@@ -107,7 +107,7 @@ void CFramebuffer::DrawPoint(CPoint pt) //(x.y) 是坐标
     *((int *)(buf + location)) = pt.color.v;
 }
 
-void CFramebuffer::DrawPoints(VecPt ptVec) {
+void CFramebuffer::DrawPoints(std::vector<Point> ptVec) {
     for (size_t j = 0; j < ptVec.size(); ++j) {
         DrawPoint(ptVec[j]);
     }

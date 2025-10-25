@@ -1,17 +1,18 @@
 #pragma once
 #include <cstdint>
-class CColor {
+
+class Color {
   public:
-    CColor() {
+    Color() {
         R = 255;
         G = 0;
         B = 0;
         v = R << 16 | G << 8 | B;
     }
 
-    CColor(int32_t vv) { v = vv; };
+    Color(int32_t vv) { v = vv; };
 
-    CColor(int32_t r, int32_t g, int32_t b) {
+    Color(int32_t r, int32_t g, int32_t b) {
         R = r;
         G = g;
         B = b;

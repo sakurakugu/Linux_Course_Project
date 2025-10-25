@@ -18,12 +18,12 @@ class CFramebuffer {
     CFramebuffer();
     ~CFramebuffer();
     int32_t Init();
-    void DrawPoint(CPoint pt);
-    void DrawPoints(VecPt ptVec);
+    void DrawPoint(Point pt);
+    void DrawPoints(std::vector<Point> ptVec);
 
     int32_t GetWidth();
     int32_t GetHeight();
-    CPoint GetCenter();
+    Point GetCenter();
 
   protected:
     void UnInit();

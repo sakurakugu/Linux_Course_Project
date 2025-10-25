@@ -71,10 +71,8 @@ show_result() {
     echo "可执行文件位置: $(pwd)/bin/FractalDragon"
     echo ""
     echo "运行方法:"
-    echo "  ./bin/FractalDragon [步数]"
-    echo ""
-    echo "注意: 此程序需要在有framebuffer设备的Linux环境中运行"
-    echo "      (如真实的Linux系统或配置了图形的WSL)"
+    echo "  先按 Ctrl+Alt+F3 切换到文本模式（按 Ctrl+Alt+F2 切换回图形模式）"
+    echo "  sudo ./build/bin/FractalDragon [步数]"
 }
 
 # 主函数

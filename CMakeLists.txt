@@ -46,7 +46,8 @@ install(TARGETS ${PROJECT_NAME}
 )
 
 # 打印构建信息
-message(STATUS "Project: ${PROJECT_NAME}")
-message(STATUS "Version: ${PROJECT_VERSION}")
-message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "C++ standard: ${CMAKE_CXX_STANDARD}")
+message(STATUS "项目名称: ${PROJECT_NAME}")
+message(STATUS "项目版本: ${PROJECT_VERSION}")
+message(STATUS "构建类型: ${CMAKE_BUILD_TYPE}")
+message(STATUS "CMake 版本: ${CMAKE_VERSION}")
+message(STATUS "C++ 标准: ${CMAKE_CXX_STANDARD}")

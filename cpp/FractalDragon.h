@@ -2,16 +2,16 @@
 
 #include "Geometry.h"
 
-class CFractalDragon : public CGeometry {
+class FractalDragon : public Geometry {
   public:
-    CFractalDragon(CPoint start, CPoint end, int32_t step, CColor cc) {
+    FractalDragon(Point start, Point end, int32_t step, Color cc) {
         m_start = start;
         m_end = end;
         m_color = cc;
         m_step = step;
     };
 
-    void Set(CPoint start, CPoint end, int32_t step, CColor cc) {
+    void Set(Point start, Point end, int32_t step, Color cc) {
         m_start = start;
         m_end = end;
         m_color = cc;
@@ -19,18 +19,18 @@ class CFractalDragon : public CGeometry {
     };
 
   protected:
-    virtual VecPt ToPoints();
+    virtual std::vector<Point> ToPoints();
 
-    VecPt GetVertexs(int32_t step, CPoint start, CPoint end, bool needLeft);
-
-  protected:
-    bool IsLeft(CPoint &ptA, CPoint &ptB, CPoint &ptC);
-    double GetLength(CPoint &pt1, CPoint &pt2);
-    CPoint GetCenter(CPoint &pt1, CPoint &pt2);
-    CPoint GetVerticalCenter(CPoint &start, CPoint &end, bool isLeft);
+    std::vector<Point> GetVertexs(int32_t step, Point start, Point end, bool needLeft);
 
   protected:
-    CPoint m_start;
-    CPoint m_end;
+    bool IsLeft(Point &ptA, Point &ptB, Point &ptC);
+    double GetLength(Point &pt1, Point &pt2);
+    Point GetCenter(Point &pt1, Point &pt2);
+    Point GetVerticalCenter(Point &start, Point &end, bool isLeft);
+
+  protected:
+    Point m_start;
+    Point m_end;
     int32_t m_step;
 };
