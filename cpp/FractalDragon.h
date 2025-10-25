@@ -1,18 +1,17 @@
-#ifndef FRACTAL_DRAGON
-#define FRACTAL_DRAGON
+#pragma once
 
 #include "Geometry.h"
 
 class CFractalDragon : public CGeometry {
   public:
-    CFractalDragon(CPoint start, CPoint end, int step, CColor cc) {
+    CFractalDragon(CPoint start, CPoint end, int32_t step, CColor cc) {
         m_start = start;
         m_end = end;
         m_color = cc;
         m_step = step;
     };
 
-    void Set(CPoint start, CPoint end, int step, CColor cc) {
+    void Set(CPoint start, CPoint end, int32_t step, CColor cc) {
         m_start = start;
         m_end = end;
         m_color = cc;
@@ -22,7 +21,7 @@ class CFractalDragon : public CGeometry {
   protected:
     virtual VecPt ToPoints();
 
-    VecPt GetVertexs(int step, CPoint start, CPoint end, bool needLeft);
+    VecPt GetVertexs(int32_t step, CPoint start, CPoint end, bool needLeft);
 
   protected:
     bool IsLeft(CPoint &ptA, CPoint &ptB, CPoint &ptC);
@@ -33,7 +32,5 @@ class CFractalDragon : public CGeometry {
   protected:
     CPoint m_start;
     CPoint m_end;
-    int m_step;
+    int32_t m_step;
 };
-
-#endif // FRACTAL_DRAGON

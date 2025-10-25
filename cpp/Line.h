@@ -1,5 +1,4 @@
-#ifndef XXXXX_LINE
-#define XXXXX_LINE
+#pragma once
 
 #include "Geometry.h"
 
@@ -24,5 +23,3 @@ class CLine : public CGeometry {
     CPoint m_start;
     CPoint m_end;
 };
-
-#endif // XXXXX_LINE

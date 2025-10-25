@@ -76,7 +76,7 @@ CPoint CFractalDragon::GetVerticalCenter(CPoint &start, CPoint &end, bool needLe
     }
 }
 
-VecPt CFractalDragon::GetVertexs(int step, CPoint start, CPoint end, bool needLeft) {
+VecPt CFractalDragon::GetVertexs(int32_t step, CPoint start, CPoint end, bool needLeft) {
     if (step > 0) {
         // 阶数递减
         step--;
@@ -102,13 +102,8 @@ VecPt CFractalDragon::GetVertexs(int step, CPoint start, CPoint end, bool needLe
 }
 
 VecPt CFractalDragon::ToPoints() {
+    // 通过递归算法计算分形龙的所有顶点
     VecPt vertexs = GetVertexs(m_step, m_start, m_end, true);
-    // 如果是0阶，那最终结果就是 起点和终点
-    // vertexs.push_back(m_start);
-    // vertexs.push_back(m_end);
-
-    // TODO 计算分形龙的顶点
-    //???;
 
     // 转换成多段线
     CPolyline polyline(vertexs, m_color, false);

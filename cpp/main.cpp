@@ -12,7 +12,7 @@
 #include <math.h>
 
 int main(int argc, char *argv[]) {
-    int step = 2;
+    int32_t step = 2;
     if (argc == 2) {
         step = atoi(argv[1]);
     }
@@ -20,7 +20,6 @@ int main(int argc, char *argv[]) {
     CFramebuffer framebuffer;
     framebuffer.Init();
 
-    // TODO
     // 绘制分形龙
     CPoint start = CPoint(200, 200);
     CPoint end = CPoint(400, 400);

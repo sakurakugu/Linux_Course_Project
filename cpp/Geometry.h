@@ -1,5 +1,4 @@
-#ifndef XXXXX_GEOMETRY
-#define XXXXX_GEOMETRY
+#pragma once
 
 #include "Point.h"
 
@@ -19,5 +18,3 @@ class CGeometry {
     VecPt m_points; // 用于绘图的点的数组
     CColor m_color;
 };
-
-#endif // XXXXX_GEOMETRY

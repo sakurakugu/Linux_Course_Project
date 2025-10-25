@@ -1,5 +1,4 @@
-#ifndef XXXXX_Polyline
-#define XXXXX_Polyline
+#pragma once
 
 #include "Geometry.h"
 
@@ -24,5 +23,3 @@ class CPolyline : public CGeometry {
     VecPt m_vertexs;
     bool m_closure; // 多边形是否闭合
 };
-
-#endif // XXXXX_LINE

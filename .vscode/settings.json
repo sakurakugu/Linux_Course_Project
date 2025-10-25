@@ -1,0 +1,19 @@
+{
+    "files.associations": {
+        "*.dbclient-js": "javascript",
+        "*.json5": "json5",
+        "compare": "cpp",
+        "cstdint": "cpp",
+        "cmath": "cpp",
+        "random": "cpp",
+        "format": "cpp",
+        "limits": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "numeric": "cpp",
+        "streambuf": "cpp",
+        "system_error": "cpp",
+        "text_encoding": "cpp",
+        "variant": "cpp"
+    }
+}

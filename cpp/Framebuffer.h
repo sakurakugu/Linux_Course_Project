@@ -1,5 +1,4 @@
-#ifndef XXXXX_FRAMEBUFFER
-#define XXXXX_FRAMEBUFFER
+#pragma once
 
 #include "Point.h"
 #include <errno.h>
@@ -18,12 +17,12 @@ class CFramebuffer {
   public:
     CFramebuffer();
     ~CFramebuffer();
-    int Init();
+    int32_t Init();
     void DrawPoint(CPoint pt);
     void DrawPoints(VecPt ptVec);
 
-    int GetWidth();
-    int GetHeight();
+    int32_t GetWidth();
+    int32_t GetHeight();
     CPoint GetCenter();
 
   protected:
@@ -31,10 +30,8 @@ class CFramebuffer {
 
   protected:
     char *buf;
-    int fbfd;
+    int32_t fbfd;
     struct fb_var_screeninfo vinfo;
     struct fb_fix_screeninfo finfo;
-    long int screensize;
+    int64_t screensize;
 };
-
-#endif // XXXXX_FRAMEBUFFER

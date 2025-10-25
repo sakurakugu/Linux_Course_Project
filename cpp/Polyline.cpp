@@ -4,7 +4,7 @@
 VecPt CPolyline::ToPoints() {
     VecPt ptVec;
 
-    for (int i = 0; i < m_vertexs.size() - 1; ++i) {
+    for (size_t i = 0; i < m_vertexs.size() - 1; ++i) {
         CLine line(m_vertexs[i], m_vertexs[i + 1], m_color);
         VecPt cptVec = line.GetPoints();
         ptVec.insert(ptVec.end(), cptVec.begin(), cptVec.end());

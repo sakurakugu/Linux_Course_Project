@@ -1,5 +1,4 @@
-#ifndef XXXXX_POINT
-#define XXXXX_POINT
+#pragma once
 
 #include "Color.h"
 #include <iostream>
@@ -35,5 +34,3 @@ class CPoint {
 
 // 点vector，简单的认为是一个点的数组类型
 typedef vector<CPoint> VecPt;
-
-#endif // XXXXX_POINT
