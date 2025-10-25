@@ -1,2 +1,6 @@
 # Linux_Course_Project
-Linux课程实践期末大作业
+
+Linux 课程实践期末大作业
+
+存放在 GitHub 仓库中
+[仓库链接](https://github.com/sakurakugu/Linux_Course_Project)
