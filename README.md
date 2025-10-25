@@ -6,6 +6,7 @@ Linux 课程实践期末大作业
 [仓库链接](https://github.com/sakurakugu/Linux_Course_Project)
 
 编译运行方法：
+（Windows用wsl编译）
 
 ```bash
 cd Linux_Course_Project
