@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "Polyline.h"
+#include "../shapes/Polyline.h"
 
 // 计算两点之间的长度
 double FractalDragon::GetLength(const Point& pt1, const Point& pt2) const {

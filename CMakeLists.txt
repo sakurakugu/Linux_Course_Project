@@ -14,16 +14,16 @@ set(CMAKE_CXX_FLAGS_DEBUG "-g -O0")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 
 # 包含头文件目录
-include_directories(cpp)
+include_directories(src)
 
 # 收集所有源文件
-file(GLOB SOURCES 
-    "cpp/*.cpp"
+file(GLOB_RECURSE SOURCES 
+    "src/*.cpp"
 )
 
 # 收集所有头文件
-file(GLOB HEADERS 
-    "cpp/*.h"
+file(GLOB_RECURSE HEADERS 
+    "src/*.h"
 )
 
 # 创建可执行文件

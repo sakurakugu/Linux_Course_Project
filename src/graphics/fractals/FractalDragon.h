@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Geometry.h"
+#include "../../core/Geometry.h"
 
 class FractalDragon : public Geometry {
   public:

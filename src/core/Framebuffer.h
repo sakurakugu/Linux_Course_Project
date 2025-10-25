@@ -18,6 +18,7 @@ class CFramebuffer {
     CFramebuffer();
     ~CFramebuffer();
     int32_t Init();
+    void Clear(Color clearColor = Color(0, 0, 0)); // 清屏，默认黑色
     void DrawPoint(Point pt);
     void DrawPoints(std::vector<Point> ptVec);
 

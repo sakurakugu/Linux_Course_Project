@@ -1,15 +1,13 @@
-#include "Framebuffer.h"
+#include "core/Framebuffer.h"
+#include "graphics/fractals/FractalDragon.h"
 #include <fcntl.h>
 #include <linux/fb.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 #include <unistd.h>
-
-#include "FractalDragon.h"
-#include "Framebuffer.h"
-#include <math.h>
 
 int main(int argc, char *argv[]) {
     int32_t step = 2;
@@ -19,6 +17,9 @@ int main(int argc, char *argv[]) {
 
     CFramebuffer framebuffer;
     framebuffer.Init();
+
+    // 清屏，确保每次运行都有干净的画布
+    framebuffer.Clear();
 
     // 绘制分形龙
     Point start = Point(200, 200);

@@ -82,6 +82,19 @@ Point CFramebuffer::GetCenter() {
     return Point(vinfo.xres / 2, vinfo.yres / 2);
 }
 
+void CFramebuffer::Clear(Color clearColor) {
+    // 使用memset快速清屏，效率更高
+    if (buf != NULL && buf != MAP_FAILED) {
+        // 对于32位颜色，直接设置整个缓冲区
+        int32_t* pixelBuf = (int32_t*)buf;
+        size_t pixelCount = screensize / sizeof(int32_t);
+        
+        for (size_t i = 0; i < pixelCount; ++i) {
+            pixelBuf[i] = clearColor.v;
+        }
+    }
+}
+
 void CFramebuffer::DrawPoint(Point pt) //(x.y) 是坐标
 {
     // 防止越界
