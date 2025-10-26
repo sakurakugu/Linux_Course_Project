@@ -197,12 +197,15 @@ int main(int argc, char *argv[]) {
         const char* imagePath = argv[2];
         std::cout << "加载并显示图片: " << imagePath << std::endl;
 
-        // 加载图片
+        // 加载图片（支持多种格式）
         Image image;
-        if (!image.LoadPPM(imagePath)) {
-            std::cout << "错误: 无法加载图片 " << imagePath << std::endl;
-            std::cout << "请确保图片是PPM格式（P3或P6）" << std::endl;
-            return 1;
+        if (!image.loadImage(imagePath)) {
+            // 如果FFmpeg加载失败，尝试PPM格式
+            if (!image.loadPPM(imagePath)) {
+                std::cout << "错误: 无法加载图片 " << imagePath << std::endl;
+                std::cout << "支持的格式: JPG, PNG, BMP, GIF, PPM等" << std::endl;
+                return 1;
+            }
         }
 
         // 清屏
@@ -214,8 +217,8 @@ int main(int argc, char *argv[]) {
         // 计算图片居中显示的位置
         int screenWidth = framebuffer.GetWidth();
         int screenHeight = framebuffer.GetHeight();
-        int imageWidth = image.GetWidth();
-        int imageHeight = image.GetHeight();
+        int imageWidth = image.getWidth();
+        int imageHeight = image.getHeight();
         
         int offsetX = (screenWidth - imageWidth) / 2;
         int offsetY = (screenHeight - imageHeight) / 2;
@@ -230,7 +233,12 @@ int main(int argc, char *argv[]) {
         std::cout << "显示位置: (" << offsetX << ", " << offsetY << ")" << std::endl;
 
         // 绘制图片
-        framebuffer.DrawPoints(image.GetPoints(offsetX, offsetY));
+        std::vector<Point> imagePoints = image.getPoints();
+        for (auto& point : imagePoints) {
+            point.x += offsetX;
+            point.y += offsetY;
+        }
+        framebuffer.DrawPoints(imagePoints);
 
         std::cout << "图片显示完成，按任意键退出..." << std::endl;
         getchar(); // 等待用户输入

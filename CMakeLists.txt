@@ -16,6 +16,15 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 # 包含头文件目录
 include_directories(src)
 
+# 查找FFmpeg库
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(FFMPEG REQUIRED
+    libavformat
+    libavcodec
+    libavutil
+    libswscale
+)
+
 # 收集所有源文件
 file(GLOB_RECURSE SOURCES 
     "src/*.cpp"
@@ -33,8 +42,11 @@ add_executable(
     ${HEADERS}
 )
 
-# 链接数学库
-target_link_libraries(${PROJECT_NAME} m)
+# 添加FFmpeg包含目录
+target_include_directories(${PROJECT_NAME} PRIVATE ${FFMPEG_INCLUDE_DIRS})
+
+# 链接数学库和FFmpeg库
+target_link_libraries(${PROJECT_NAME} m ${FFMPEG_LIBRARIES})
 
 # 设置输出目录
 set_target_properties(${PROJECT_NAME} PROPERTIES

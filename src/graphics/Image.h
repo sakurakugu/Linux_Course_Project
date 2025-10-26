@@ -1,38 +1,51 @@
-#pragma once
+#ifndef IMAGE_H
+#define IMAGE_H
 
+#include <string>
+#include <vector>
 #include "../core/Point.h"
 #include "../core/Color.h"
-#include <vector>
-#include <string>
+
+extern "C" {
+#include <libavformat/avformat.h>
+#include <libavcodec/avcodec.h>
+#include <libavutil/imgutils.h>
+#include <libswscale/swscale.h>
+}
 
 class Image {
+private:
+    int width;
+    int height;
+    std::vector<std::vector<Color>> pixels;
+    
+    // FFmpeg相关成员
+    AVFormatContext* formatContext;
+    AVCodecContext* codecContext;
+    AVFrame* frame;
+    AVFrame* frameRGB;
+    SwsContext* swsContext;
+    uint8_t* buffer;
+    
+    bool initFFmpeg();
+    void cleanupFFmpeg();
+    bool decodeFrame();
+    
 public:
     Image();
     ~Image();
     
-    // 加载PPM格式图片
-    bool LoadPPM(const std::string& filename);
+    // 支持多种图片格式
+    bool loadImage(const std::string& filename);
     
-    // 获取图片尺寸
-    int GetWidth() const { return width; }
-    int GetHeight() const { return height; }
+    // 保持向后兼容的PPM加载方法
+    bool loadPPM(const std::string& filename);
     
-    // 获取指定位置的像素颜色
-    Color GetPixel(int x, int y) const;
+    int getWidth() const { return width; }
+    int getHeight() const { return height; }
     
-    // 获取所有像素点（用于绘制）
-    std::vector<Point> GetPoints(int offsetX = 0, int offsetY = 0) const;
-    
-    // 检查图片是否已加载
-    bool IsLoaded() const { return loaded; }
-
-private:
-    int width;
-    int height;
-    int maxVal;
-    std::vector<Color> pixels;
-    bool loaded;
-    
-    // 跳过PPM文件中的注释
-    void SkipComments(FILE* file);
+    Color getPixel(int x, int y) const;
+    std::vector<Point> getPoints() const;
 };
+
+#endif // IMAGE_H

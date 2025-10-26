@@ -6,7 +6,7 @@
 
 - **分形龙绘制**: 使用递归算法绘制分形龙图案
 - **奥运五环**: 绘制标准的奥运五环，支持交互式控制
-- **图片显示**: 支持PPM格式图片的加载和显示
+- **图片显示**: 支持多种图片格式的加载和显示（PNG、JPEG、BMP、GIF、PPM等）
 - **白色边框**: 所有模式都支持白色边框显示
 - **实时交互**: 支持键盘控制图形的移动、旋转和缩放
 - **跨平台**: 支持在 Linux 和 WSL 环境中编译运行
@@ -18,19 +18,23 @@
 - GCC 编译器 (支持 C++23)
 - CMake (>= 3.10)
 - Make 工具
+- FFmpeg 开发库 (用于图片格式支持)
 
 ### 依赖安装
 
 #### Ubuntu/Debian
 ```bash
 sudo apt-get update
-sudo apt-get install build-essential cmake git
+sudo apt-get install build-essential cmake git pkg-config
+sudo apt-get install libavformat-dev libavcodec-dev libavutil-dev libswscale-dev ffmpeg
 ```
 
 #### CentOS/RHEL
 ```bash
 sudo yum groupinstall "Development Tools"
-sudo yum install cmake git
+sudo yum install cmake git pkg-config
+sudo yum install epel-release
+sudo yum install ffmpeg-devel
 ```
 
 ## 编译方法
@@ -85,14 +89,22 @@ make
 
 示例：
 ```bash
+./build/bin/HomeWork image test_image.png
+./build/bin/HomeWork image test_image.jpg
+./build/bin/HomeWork image test_image.bmp
 ./build/bin/HomeWork image test_image.ppm
 ```
 
 #### 支持的图片格式
+- **PNG**: 便携式网络图形格式
+- **JPEG/JPG**: 联合图像专家组格式
+- **BMP**: Windows位图格式
+- **GIF**: 图形交换格式
 - **PPM P3**: ASCII格式的PPM图片
 - **PPM P6**: 二进制格式的PPM图片
 - 图片会自动居中显示
 - 超出屏幕的图片会自动调整位置
+- 使用FFmpeg库提供强大的格式支持
 
 ## 新功能说明
 
@@ -102,10 +114,12 @@ make
 - 边框颜色为白色(255, 255, 255)
 
 ### 2. 图片显示功能
-- 支持加载PPM格式图片文件
-- 自动检测P3(ASCII)和P6(二进制)格式
+- 支持多种主流图片格式（PNG、JPEG、BMP、GIF、PPM等）
+- 使用FFmpeg库提供强大的解码能力
+- 自动检测图片格式和编码方式
 - 图片居中显示，自动处理边界
-- 支持不同颜色深度的图片
+- 支持不同颜色深度和像素格式的图片
+- 向后兼容原有的PPM格式支持
 
 ### 3. WSL编译支持
 - 完整的WSL环境配置脚本
@@ -151,7 +165,8 @@ chmod +x wsl-setup.sh
 
 - **高效绘制**: 直接操作 framebuffer，性能优异
 - **模块化设计**: 清晰的代码结构，易于扩展
-- **图片处理**: 支持多种PPM格式的图片加载
+- **多媒体支持**: 集成FFmpeg库，支持多种图片格式
+- **图片处理**: 强大的图片解码和格式转换能力
 - **边框绘制**: 高效的边框绘制算法
 - **数学算法**: 实现了复杂的分形几何算法
 - **交互控制**: 实时响应用户输入
@@ -166,9 +181,10 @@ chmod +x wsl-setup.sh
 4. 在 `main.cpp` 中添加对应的命令行选项
 
 ### 添加新图片格式
-1. 在 `Image` 类中添加新的加载方法
-2. 实现对应格式的解析逻辑
-3. 确保返回标准的颜色格式
+1. FFmpeg已支持大多数主流图片格式，无需额外开发
+2. 如需支持特殊格式，可在 `Image` 类中添加专用加载方法
+3. 利用FFmpeg的强大解码能力，自动处理格式转换
+4. 确保返回标准的RGB颜色格式
 
 ### 性能优化
 - 使用向量化操作批量绘制点

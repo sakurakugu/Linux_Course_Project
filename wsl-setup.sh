@@ -77,13 +77,22 @@ install_dev_tools() {
             git \
             vim \
             tree \
-            htop
-        print_success "开发工具安装完成"
+            htop \
+            pkg-config \
+            libavformat-dev \
+            libavcodec-dev \
+            libavutil-dev \
+            libswscale-dev \
+            ffmpeg
+        print_success "开发工具和FFmpeg库安装完成"
     elif [ -f /etc/redhat-release ]; then
         # RedHat/CentOS
         sudo yum groupinstall -y "Development Tools"
-        sudo yum install -y cmake git vim tree htop
-        print_success "开发工具安装完成"
+        sudo yum install -y cmake git vim tree htop pkg-config
+        # 对于CentOS/RHEL，可能需要启用EPEL仓库来安装FFmpeg
+        sudo yum install -y epel-release
+        sudo yum install -y ffmpeg-devel
+        print_success "开发工具和FFmpeg库安装完成"
     fi
 }
 
