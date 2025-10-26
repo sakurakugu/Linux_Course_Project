@@ -18,7 +18,7 @@ void printUsage(const char* programName) {
     std::cout << "用法: " << std::endl;
     std::cout << "  " << programName << " dragon <迭代次数>  - 绘制分形龙" << std::endl;
     std::cout << "  " << programName << " olympic           - 绘制奥运五环（支持交互控制）" << std::endl;
-    std::cout << "  " << programName << " image <图片路径>  - 显示PPM格式图片" << std::endl;
+    std::cout << "  " << programName << " image <图片路径>  - 显示图片（支持PPM、JPG、PNG、BMP、GIF等格式）" << std::endl;
     std::cout << "示例: " << std::endl;
     std::cout << "  " << programName << " dragon 10" << std::endl;
     std::cout << "  " << programName << " olympic" << std::endl;
@@ -59,6 +59,9 @@ char getKey() {
 }
 
 int main(int argc, char *argv[]) {
+    // 自动清屏
+    system("clear");
+    
     // 检查参数数量
     if (argc < 2) {
         std::cout << "错误: 参数数量不正确" << std::endl;
@@ -229,19 +232,62 @@ int main(int argc, char *argv[]) {
         if (offsetX + imageWidth > screenWidth - 2) offsetX = screenWidth - imageWidth - 2;
         if (offsetY + imageHeight > screenHeight - 2) offsetY = screenHeight - imageHeight - 2;
 
-        std::cout << "图片尺寸: " << imageWidth << "x" << imageHeight << std::endl;
-        std::cout << "显示位置: (" << offsetX << ", " << offsetY << ")" << std::endl;
+        // std::cout << "图片尺寸: " << imageWidth << "x" << imageHeight << std::endl;
+        // std::cout << "显示位置: (" << offsetX << ", " << offsetY << ")" << std::endl;
 
-        // 绘制图片
-        std::vector<Point> imagePoints = image.getPoints();
-        for (auto& point : imagePoints) {
-            point.x += offsetX;
-            point.y += offsetY;
+        // 检查是否为GIF动画
+        if (image.isGifAnimated()) {
+            std::cout << "检测到GIF动画，共 " << image.getFrameCount() << " 帧" << std::endl;
+            std::cout << "按ESC键退出动画播放..." << std::endl;
+            
+            // 设置非阻塞输入
+            setNonBlockingInput();
+            
+            bool playing = true;
+            while (playing) {
+                // 清屏
+                framebuffer.Clear();
+                
+                // 绘制白色边框
+                framebuffer.DrawBorder();
+                
+                // 绘制当前帧
+                std::vector<Point> imagePoints = image.getAnimatedPoints();
+                for (auto& point : imagePoints) {
+                    point.x += offsetX;
+                    point.y += offsetY;
+                }
+                framebuffer.DrawPoints(imagePoints);
+                
+                // 检查键盘输入
+                char key = getKey();
+                if (key == 27) { // ESC键
+                    playing = false;
+                    break;
+                }
+                
+                // 等待当前帧的延迟时间
+                int delay = image.getFrameDelay(image.getCurrentFrame());
+                usleep(delay * 1000); // 转换为微秒
+                
+                // 切换到下一帧
+                image.nextFrame();
+            }
+            
+            // 恢复终端模式
+            restoreInput();
+            std::cout << "GIF动画播放结束" << std::endl;
+        } else {
+            // 静态图片显示
+            std::vector<Point> imagePoints = image.getPoints();
+            for (auto& point : imagePoints) {
+                point.x += offsetX;
+                point.y += offsetY;
+            }
+            framebuffer.DrawPoints(imagePoints);
+            
+            std::cout << "图片显示完成" << std::endl;
         }
-        framebuffer.DrawPoints(imagePoints);
-
-        std::cout << "图片显示完成，按任意键退出..." << std::endl;
-        getchar(); // 等待用户输入
         
     } else {
         std::cout << "错误: 未知的命令 '" << command << "'" << std::endl;

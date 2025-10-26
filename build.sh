@@ -68,7 +68,7 @@ build_project() {
 show_result() {
     echo ""
     echo "=== 构建完成 ==="
-    echo "可执行文件位置: $(pwd)/bin/FractalDragon"
+    echo "可执行文件位置: $(pwd)/bin/HomeWork"
     echo ""
     echo "运行方法:"
     echo "  先按 Ctrl+Alt+F3 切换到文本模式（按 Ctrl+Alt+F2 切换回图形模式）"

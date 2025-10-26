@@ -27,9 +27,16 @@ private:
     SwsContext* swsContext;
     uint8_t* buffer;
     
+    // GIF动画支持
+    std::vector<std::vector<std::vector<Color>>> frames; // 存储所有帧
+    std::vector<int> frameDelays; // 每帧的延迟时间（毫秒）
+    int currentFrame;
+    bool isAnimated;
+    
     bool initFFmpeg();
     void cleanupFFmpeg();
     bool decodeFrame();
+    bool decodeAllFrames();
     
 public:
     Image();
@@ -46,6 +53,15 @@ public:
     
     Color getPixel(int x, int y) const;
     std::vector<Point> getPoints() const;
+    
+    // GIF动画支持
+    bool isGifAnimated() const { return isAnimated; }
+    int getFrameCount() const { return frames.size(); }
+    int getCurrentFrame() const { return currentFrame; }
+    int getFrameDelay(int frameIndex) const;
+    bool nextFrame();
+    void setFrame(int frameIndex);
+    std::vector<Point> getAnimatedPoints() const;
 };
 
 #endif // IMAGE_H

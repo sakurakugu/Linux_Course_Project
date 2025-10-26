@@ -3,7 +3,8 @@
 #include <fstream>
 
 Image::Image() : width(0), height(0), formatContext(nullptr), codecContext(nullptr), 
-                 frame(nullptr), frameRGB(nullptr), swsContext(nullptr), buffer(nullptr) {
+                 frame(nullptr), frameRGB(nullptr), swsContext(nullptr), buffer(nullptr),
+                 currentFrame(0), isAnimated(false) {
     // FFmpeg 4.0+不再需要av_register_all()
 }
 
@@ -142,8 +143,13 @@ bool Image::loadImage(const std::string& filename) {
         return false;
     }
     
-    // 解码第一帧
-    return decodeFrame();
+    // 检查是否为GIF动画
+    if (codecParams->codec_id == AV_CODEC_ID_GIF) {
+        return decodeAllFrames();
+    } else {
+        // 解码第一帧
+        return decodeFrame();
+    }
 }
 
 bool Image::decodeFrame() {
@@ -287,4 +293,96 @@ std::vector<Point> Image::getPoints() const {
     }
     
     return points;
+}
+
+bool Image::decodeAllFrames() {
+    AVPacket* packet = av_packet_alloc();
+    if (!packet) {
+        return false;
+    }
+    
+    frames.clear();
+    frameDelays.clear();
+    currentFrame = 0;
+    isAnimated = false;
+    
+    // 读取所有帧
+    while (av_read_frame(formatContext, packet) >= 0) {
+        // 发送数据包到解码器
+        if (avcodec_send_packet(codecContext, packet) == 0) {
+            // 接收解码后的帧
+            while (avcodec_receive_frame(codecContext, frame) == 0) {
+                // 转换像素格式
+                sws_scale(swsContext, (uint8_t const * const *)frame->data,
+                         frame->linesize, 0, height,
+                         frameRGB->data, frameRGB->linesize);
+                
+                // 将RGB数据转换为我们的像素格式
+                std::vector<std::vector<Color>> framePixels(height);
+                for (int y = 0; y < height; y++) {
+                    framePixels[y].resize(width);
+                    for (int x = 0; x < width; x++) {
+                        int index = y * frameRGB->linesize[0] + x * 3;
+                        uint8_t r = frameRGB->data[0][index];
+                        uint8_t g = frameRGB->data[0][index + 1];
+                        uint8_t b = frameRGB->data[0][index + 2];
+                        framePixels[y][x] = Color(r, g, b);
+                    }
+                }
+                
+                frames.push_back(framePixels);
+                
+                // 获取帧延迟时间（GIF帧间隔）
+                int delay = 100; // 默认100ms
+                if (frame->pkt_duration > 0) {
+                    delay = frame->pkt_duration * 10; // 转换为毫秒
+                }
+                frameDelays.push_back(delay);
+            }
+        }
+        av_packet_unref(packet);
+    }
+    
+    av_packet_free(&packet);
+    
+    if (frames.size() > 1) {
+        isAnimated = true;
+        // 设置第一帧为当前显示帧
+        if (!frames.empty()) {
+            pixels = frames[0];
+        }
+    } else if (frames.size() == 1) {
+        // 只有一帧，设置为静态图片
+        pixels = frames[0];
+    }
+    
+    return !frames.empty();
+}
+
+int Image::getFrameDelay(int frameIndex) const {
+    if (frameIndex >= 0 && frameIndex < static_cast<int>(frameDelays.size())) {
+        return frameDelays[frameIndex];
+    }
+    return 100; // 默认延迟
+}
+
+bool Image::nextFrame() {
+    if (!isAnimated || frames.empty()) {
+        return false;
+    }
+    
+    currentFrame = (currentFrame + 1) % frames.size();
+    pixels = frames[currentFrame];
+    return true;
+}
+
+void Image::setFrame(int frameIndex) {
+    if (frameIndex >= 0 && frameIndex < static_cast<int>(frames.size())) {
+        currentFrame = frameIndex;
+        pixels = frames[currentFrame];
+    }
+}
+
+std::vector<Point> Image::getAnimatedPoints() const {
+    return getPoints(); // 返回当前帧的点
 }
