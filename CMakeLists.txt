@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 # Windows用wsl编译
 
 # 设置项目名称和版本
-project(FractalDragon VERSION 1.0.0 LANGUAGES CXX)
+project(HomeWork VERSION 1.0.0 LANGUAGES CXX)
 
 # 设置C++标准
 set(CMAKE_CXX_STANDARD 23)
