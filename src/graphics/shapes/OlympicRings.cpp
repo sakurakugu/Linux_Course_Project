@@ -28,18 +28,17 @@ void OlympicRings::InitializeRings() {
 std::vector<Point> OlympicRings::ToPoints() {
     std::vector<Point> points;
     
-    // 重新计算各个环的位置（考虑变换）
-    double scaledRadius = m_ringRadius * GetScale(); // 缩放后的半径
-    double scaledSpacing = m_spacing * GetScale(); // 缩放后的间距
+    // 计算缩放后的参数
+    double scaledRadius = m_ringRadius * GetScale();
     double offsetY = scaledRadius * 0.6; // 上下排的垂直偏移
     
     // 原始位置（相对于中心）
     std::vector<Point> ringCenters = {
-        Point(m_center.x - scaledSpacing, m_center.y - offsetY),      // 蓝环
-        Point(m_center.x, m_center.y - offsetY),                      // 黑环
-        Point(m_center.x + scaledSpacing, m_center.y - offsetY),      // 红环
-        Point(m_center.x - scaledSpacing * 0.5, m_center.y + offsetY), // 黄环
-        Point(m_center.x + scaledSpacing * 0.5, m_center.y + offsetY)  // 绿环
+        Point(m_center.x - m_spacing, m_center.y - offsetY),      // 蓝环
+        Point(m_center.x, m_center.y - offsetY),                  // 黑环
+        Point(m_center.x + m_spacing, m_center.y - offsetY),      // 红环
+        Point(m_center.x - m_spacing * 0.5, m_center.y + offsetY), // 黄环
+        Point(m_center.x + m_spacing * 0.5, m_center.y + offsetY)  // 绿环
     };
     
     // 颜色数组
@@ -53,18 +52,64 @@ std::vector<Point> OlympicRings::ToPoints() {
     
     // 为每个环生成点并应用变换
     for (size_t i = 0; i < ringCenters.size(); i++) {
-        // 生成圆环的点
-        std::vector<Point> ringPoints;
-        const int numPoints = 360; // 每个圆环的点数
+        // 先应用旋转到环心位置（绕五环中心旋转）
+        Point rotatedCenter = ringCenters[i];
+        if (GetRotation() != 0.0) {
+            double dx = rotatedCenter.x - m_center.x;
+            double dy = rotatedCenter.y - m_center.y;
+            double cos_a = cos(GetRotation());
+            double sin_a = sin(GetRotation());
+            rotatedCenter.x = m_center.x + dx * cos_a - dy * sin_a;
+            rotatedCenter.y = m_center.y + dx * sin_a + dy * cos_a;
+        }
         
-        for (int j = 0; j < numPoints; j++) {
-            double angle = 2.0 * M_PI * j / numPoints;
-            double x = ringCenters[i].x + scaledRadius * cos(angle);
-            double y = ringCenters[i].y + scaledRadius * sin(angle);
+        // 应用平移
+        rotatedCenter.x += GetTranslation().x;
+        rotatedCenter.y += GetTranslation().y;
+        
+        // 使用Bresenham圆算法绘制圆环
+        int cx = static_cast<int>(std::round(rotatedCenter.x));
+        int cy = static_cast<int>(std::round(rotatedCenter.y));
+        int r = static_cast<int>(std::round(scaledRadius));
+        
+        if (r <= 0) continue; // 避免无效半径
+        
+        // 使用Bresenham算法绘制圆
+        int x = 0;
+        int y = r;
+        int d = 3 - 2 * r;
+        
+        // 绘制圆的8个对称点的lambda函数
+        auto drawCirclePoints = [&](int x, int y) {
+            std::vector<Point> circlePoints = {
+                Point(cx + x, cy + y, ringColors[i]),
+                Point(cx - x, cy + y, ringColors[i]),
+                Point(cx + x, cy - y, ringColors[i]),
+                Point(cx - x, cy - y, ringColors[i]),
+                Point(cx + y, cy + x, ringColors[i]),
+                Point(cx - y, cy + x, ringColors[i]),
+                Point(cx + y, cy - x, ringColors[i]),
+                Point(cx - y, cy - x, ringColors[i])
+            };
             
-            // 应用变换
-            Point transformedPoint = ApplyTransform(Point(x, y, ringColors[i]));
-            points.push_back(transformedPoint);
+            for (const auto& point : circlePoints) {
+                points.push_back(point);
+            }
+        };
+        
+        drawCirclePoints(x, y);
+        
+        while (y >= x) {
+            x++;
+            
+            if (d > 0) {
+                y--;
+                d = d + 4 * (x - y) + 10;
+            } else {
+                d = d + 4 * x + 6;
+            }
+            
+            drawCirclePoints(x, y);
         }
     }
     
