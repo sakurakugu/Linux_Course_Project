@@ -125,3 +125,36 @@ void CFramebuffer::DrawPoints(std::vector<Point> ptVec) {
         DrawPoint(ptVec[j]);
     }
 }
+
+void CFramebuffer::DrawBorder(int borderWidth, Color borderColor) {
+    int width = GetWidth();
+    int height = GetHeight();
+    
+    // 绘制上边框
+    for (int x = 0; x < width; x++) {
+        for (int y = 0; y < borderWidth; y++) {
+            DrawPoint(Point(x, y, borderColor));
+        }
+    }
+    
+    // 绘制下边框
+    for (int x = 0; x < width; x++) {
+        for (int y = height - borderWidth; y < height; y++) {
+            DrawPoint(Point(x, y, borderColor));
+        }
+    }
+    
+    // 绘制左边框
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < borderWidth; x++) {
+            DrawPoint(Point(x, y, borderColor));
+        }
+    }
+    
+    // 绘制右边框
+    for (int y = 0; y < height; y++) {
+        for (int x = width - borderWidth; x < width; x++) {
+            DrawPoint(Point(x, y, borderColor));
+        }
+    }
+}

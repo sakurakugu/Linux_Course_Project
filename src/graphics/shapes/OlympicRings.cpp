@@ -18,7 +18,7 @@ void OlympicRings::InitializeRings() {
     
     // 设置各个环的位置和颜色
     m_blueRing.Set(blueCenter, m_ringRadius, Color(0, 129, 200));    // 奥运蓝
-    m_blackRing.Set(blackCenter, m_ringRadius, Color(0, 0, 0));      // 黑色
+    m_blackRing.Set(blackCenter, m_ringRadius, Color(255, 255, 255));      // 白色（黑色背景）
     m_redRing.Set(redCenter, m_ringRadius, Color(238, 51, 78));      // 奥运红
     m_yellowRing.Set(yellowCenter, m_ringRadius, Color(252, 177, 49)); // 奥运黄
     m_greenRing.Set(greenCenter, m_ringRadius, Color(0, 166, 81));   // 奥运绿
@@ -39,26 +39,26 @@ std::vector<Point> OlympicRings::ToPoints() {
                         yellowPoints.size() + greenPoints.size();
     points.reserve(totalPoints);
     
-    // 合并所有点
-    points.insert(points.end(), 
-                 std::make_move_iterator(bluePoints.begin()), 
-                 std::make_move_iterator(bluePoints.end()));
+    // 合并所有点并应用变换
+    for (const auto& point : bluePoints) {
+        points.push_back(ApplyTransform(point));
+    }
     
-    points.insert(points.end(), 
-                 std::make_move_iterator(blackPoints.begin()), 
-                 std::make_move_iterator(blackPoints.end()));
+    for (const auto& point : blackPoints) {
+        points.push_back(ApplyTransform(point));
+    }
     
-    points.insert(points.end(), 
-                 std::make_move_iterator(redPoints.begin()), 
-                 std::make_move_iterator(redPoints.end()));
+    for (const auto& point : redPoints) {
+        points.push_back(ApplyTransform(point));
+    }
     
-    points.insert(points.end(), 
-                 std::make_move_iterator(yellowPoints.begin()), 
-                 std::make_move_iterator(yellowPoints.end()));
+    for (const auto& point : yellowPoints) {
+        points.push_back(ApplyTransform(point));
+    }
     
-    points.insert(points.end(), 
-                 std::make_move_iterator(greenPoints.begin()), 
-                 std::make_move_iterator(greenPoints.end()));
+    for (const auto& point : greenPoints) {
+        points.push_back(ApplyTransform(point));
+    }
     
     return points;
 }

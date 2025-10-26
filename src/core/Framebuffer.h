@@ -21,6 +21,7 @@ class CFramebuffer {
     void Clear(Color clearColor = Color(0, 0, 0)); // 清屏，默认黑色
     void DrawPoint(Point pt);
     void DrawPoints(std::vector<Point> ptVec);
+    void DrawBorder(int borderWidth = 2, Color borderColor = Color(255, 255, 255)); // 绘制边框，默认白色2像素
 
     int32_t GetWidth();
     int32_t GetHeight();

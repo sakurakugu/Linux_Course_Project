@@ -39,6 +39,24 @@ class OlympicRings : public Geometry {
         return m_center;
     }
 
+    // 重写变换方法，默认以奥运五环中心为变换中心
+    void Rotate(double angle) {
+        Geometry::Rotate(angle, m_center);
+    }
+
+    void Scale(double factor) {
+        Geometry::Scale(factor, m_center);
+    }
+
+    // 重写基类的变换方法以保持兼容性
+    void Rotate(double angle, const Point& center) override {
+        Geometry::Rotate(angle, center);
+    }
+
+    void Scale(double factor, const Point& center) override {
+        Geometry::Scale(factor, center);
+    }
+
   protected:
     virtual std::vector<Point> ToPoints() override;
     void InitializeRings();
