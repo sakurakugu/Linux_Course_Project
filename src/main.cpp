@@ -3,6 +3,7 @@
 #include "graphics/shapes/OlympicRings.h"
 #include "graphics/Image.h"
 #include "graphics/games/SnakeGame.h"
+#include "graphics/games/BubbleSort.h"
 #include <fcntl.h>
 #include <linux/fb.h>
 #include <math.h>
@@ -20,11 +21,13 @@ void printUsage(const char* programName) {
     std::cout << "  " << programName << " dragon <迭代次数>  - 绘制分形龙" << std::endl;
     std::cout << "  " << programName << " olympic           - 绘制奥运五环（支持交互控制）" << std::endl;
     std::cout << "  " << programName << " snake             - 贪吃蛇游戏" << std::endl;
+    std::cout << "  " << programName << " bubble [数组大小] - 冒泡排序可视化" << std::endl;
     std::cout << "  " << programName << " image <图片路径>  - 显示图片（支持PPM、JPG、PNG、BMP、GIF等格式）" << std::endl;
     std::cout << "示例: " << std::endl;
     std::cout << "  " << programName << " dragon 10" << std::endl;
     std::cout << "  " << programName << " olympic" << std::endl;
     std::cout << "  " << programName << " snake" << std::endl;
+    std::cout << "  " << programName << " bubble 30" << std::endl;
     std::cout << "  " << programName << " image /path/to/image.ppm" << std::endl;
     std::cout << "参数说明:" << std::endl;
     std::cout << "  dragon: 绘制分形龙，需要指定迭代次数 (建议范围: 1-15)" << std::endl;
@@ -38,6 +41,10 @@ void printUsage(const char* programName) {
     std::cout << "    P    - 暂停/继续游戏" << std::endl;
     std::cout << "    R    - 重新开始游戏" << std::endl;
     std::cout << "    Q/ESC - 退出游戏" << std::endl;
+    std::cout << "  bubble: 冒泡排序算法可视化，支持以下控制:" << std::endl;
+    std::cout << "    SPACE - 开始/暂停排序" << std::endl;
+    std::cout << "    R     - 重新生成随机数组" << std::endl;
+    std::cout << "    Q/ESC - 退出程序" << std::endl;
 }
 
 // 设置终端为非阻塞模式
@@ -203,6 +210,25 @@ int main(int argc, char *argv[]) {
         
         SnakeGame snakeGame(&framebuffer);
         snakeGame.Run();
+        
+    } else if (strcmp(command, "bubble") == 0) {
+        // 冒泡排序可视化模式
+        int arraySize = 50; // 默认数组大小
+        
+        if (argc == 3) {
+            const char* sizeStr = argv[2];
+            int size = atoi(sizeStr);
+            if (size > 0 && size <= 100) {
+                arraySize = size;
+            } else {
+                std::cout << "警告: 数组大小无效，使用默认值50（建议范围: 1-100）" << std::endl;
+            }
+        }
+        
+        std::cout << "启动冒泡排序可视化，数组大小: " << arraySize << std::endl;
+        
+        BubbleSort bubbleSort(&framebuffer, arraySize);
+        bubbleSort.Run();
         
     } else if (strcmp(command, "image") == 0) {
         // 图片显示模式
