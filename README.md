@@ -6,8 +6,9 @@
 
 - **分形龙绘制**: 使用递归算法绘制分形龙图案
 - **奥运五环**: 绘制标准的奥运五环，支持交互式控制
+- **贪吃蛇游戏**: 经典的贪吃蛇游戏，支持实时控制和游戏状态管理
+- **冒泡排序可视化**: 动态展示冒泡排序算法的执行过程
 - **图片显示**: 支持多种图片格式的加载和显示（PNG、JPEG、BMP、GIF、PPM等）
-- **白色边框**: 所有模式都支持白色边框显示
 - **实时交互**: 支持键盘控制图形的移动、旋转和缩放
 - **跨平台**: 支持在 Linux 和 WSL 环境中编译运行
 
@@ -82,6 +83,50 @@ make
 - **-/=**: 缩放图形（-缩小，=放大）
 - **Q(大写)/ESC**: 退出程序
 
+### 贪吃蛇游戏模式
+```bash
+./build/bin/HomeWork snake
+```
+
+#### 游戏控制
+- **WASD**: 控制蛇的移动方向
+  - **W**: 向上移动
+  - **A**: 向左移动
+  - **S**: 向下移动
+  - **D**: 向右移动
+- **P**: 暂停/继续游戏
+- **R**: 重新开始游戏
+- **Q/ESC**: 退出游戏
+
+#### 游戏规则
+- 控制蛇吃食物来增长身体
+- 避免撞到墙壁或自己的身体
+- 每吃到一个食物得分增加
+- 蛇的移动速度会随着长度增加而加快
+
+### 冒泡排序可视化模式
+```bash
+./build/bin/HomeWork bubble [数组大小]
+```
+
+示例：
+```bash
+./build/bin/HomeWork bubble 30    # 30个元素的数组
+./build/bin/HomeWork bubble 50    # 50个元素的数组（默认）
+./build/bin/HomeWork bubble 80    # 80个元素的数组
+```
+
+#### 控制方式
+- **SPACE**: 开始/暂停排序过程
+- **R**: 重新生成随机数组
+- **Q/ESC**: 退出程序
+
+#### 可视化特性
+- 实时显示排序过程中的数组状态
+- 不同颜色表示不同的元素状态
+- 支持1-100个元素的数组大小
+- 动态调整排序速度以便观察
+
 ### 图片显示模式
 ```bash
 ./build/bin/HomeWork image <图片路径>
@@ -106,27 +151,6 @@ make
 - 超出屏幕的图片会自动调整位置
 - 使用FFmpeg库提供强大的格式支持
 
-## 新功能说明
-
-### 1. 白色边框
-- 所有显示模式都会自动添加白色边框
-- 边框宽度默认为2像素
-- 边框颜色为白色(255, 255, 255)
-
-### 2. 图片显示功能
-- 支持多种主流图片格式（PNG、JPEG、BMP、GIF、PPM等）
-- 使用FFmpeg库提供强大的解码能力
-- 自动检测图片格式和编码方式
-- 图片居中显示，自动处理边界
-- 支持不同颜色深度和像素格式的图片
-- 向后兼容原有的PPM格式支持
-
-### 3. WSL编译支持
-- 完整的WSL环境配置脚本
-- 自动检测和安装编译依赖
-- 支持WSL1和WSL2
-- 提供详细的环境检查和配置指导
-
 ## 项目结构
 
 ```
@@ -134,15 +158,34 @@ make
 │   ├── core/           # 核心功能
 │   │   ├── Framebuffer.cpp/h  # framebuffer操作
 │   │   ├── Point.h     # 点和颜色定义
-│   │   └── Color.h     # 颜色处理
+│   │   ├── Color.h     # 颜色处理
+│   │   └── Geometry.h  # 几何计算
 │   ├── graphics/       # 图形绘制
 │   │   ├── Image.cpp/h # 图片处理类
 │   │   ├── fractals/   # 分形算法
+│   │   │   └── FractalDragon.cpp/h  # 分形龙实现
+│   │   ├── games/      # 游戏模块
+│   │   │   ├── SnakeGame.cpp/h      # 贪吃蛇游戏
+│   │   │   ├── Snake.cpp/h          # 蛇类实现
+│   │   │   ├── Food.cpp/h           # 食物类实现
+│   │   │   └── BubbleSort.cpp/h     # 冒泡排序可视化
 │   │   └── shapes/     # 几何图形
-│   └── main.cpp        # 主程序
+│   │       ├── OlympicRings.cpp/h   # 奥运五环
+│   │       ├── Circle.cpp/h         # 圆形
+│   │       ├── Line.cpp/h           # 直线
+│   │       └── Polyline.cpp/h       # 多段线
+│   ├── utils/          # 工具类
+│   │   ├── Application.cpp/h        # 应用程序管理
+│   │   └── InputHandler.cpp/h       # 输入处理
+│   └── main.cpp        # 主程序入口
+├── test/               # 测试文件
+│   ├── test_image.ppm  # PPM测试图片
+│   ├── test_image.jpg  # JPEG测试图片
+│   ├── test_image.png  # PNG测试图片
+│   ├── test_image.bmp  # BMP测试图片
+│   └── test_image.gif  # GIF测试图片
 ├── build.sh            # 构建脚本
 ├── wsl-setup.sh        # WSL环境配置脚本
-├── test_image.ppm      # 测试图片文件
 └── CMakeLists.txt      # CMake配置
 ```
 
