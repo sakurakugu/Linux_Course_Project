@@ -2,6 +2,7 @@
 #include "graphics/fractals/FractalDragon.h"
 #include "graphics/shapes/OlympicRings.h"
 #include "graphics/Image.h"
+#include "graphics/games/SnakeGame.h"
 #include <fcntl.h>
 #include <linux/fb.h>
 #include <math.h>
@@ -18,10 +19,12 @@ void printUsage(const char* programName) {
     std::cout << "用法: " << std::endl;
     std::cout << "  " << programName << " dragon <迭代次数>  - 绘制分形龙" << std::endl;
     std::cout << "  " << programName << " olympic           - 绘制奥运五环（支持交互控制）" << std::endl;
+    std::cout << "  " << programName << " snake             - 贪吃蛇游戏" << std::endl;
     std::cout << "  " << programName << " image <图片路径>  - 显示图片（支持PPM、JPG、PNG、BMP、GIF等格式）" << std::endl;
     std::cout << "示例: " << std::endl;
     std::cout << "  " << programName << " dragon 10" << std::endl;
     std::cout << "  " << programName << " olympic" << std::endl;
+    std::cout << "  " << programName << " snake" << std::endl;
     std::cout << "  " << programName << " image /path/to/image.ppm" << std::endl;
     std::cout << "参数说明:" << std::endl;
     std::cout << "  dragon: 绘制分形龙，需要指定迭代次数 (建议范围: 1-15)" << std::endl;
@@ -30,6 +33,11 @@ void printUsage(const char* programName) {
     std::cout << "    Q/E  - 旋转图形（Q逆时针，E顺时针）" << std::endl;
     std::cout << "    -/=  - 缩放图形（-缩小，=放大）" << std::endl;
     std::cout << "    Q(大写)/ESC - 退出程序" << std::endl;
+    std::cout << "  snake: 贪吃蛇游戏，支持以下控制:" << std::endl;
+    std::cout << "    WASD - 控制蛇的移动方向" << std::endl;
+    std::cout << "    P    - 暂停/继续游戏" << std::endl;
+    std::cout << "    R    - 重新开始游戏" << std::endl;
+    std::cout << "    Q/ESC - 退出游戏" << std::endl;
 }
 
 // 设置终端为非阻塞模式
@@ -188,6 +196,13 @@ int main(int argc, char *argv[]) {
         // 恢复终端模式
         restoreInput();
         std::cout << "程序退出" << std::endl;
+        
+    } else if (strcmp(command, "snake") == 0) {
+        // 贪吃蛇游戏模式
+        std::cout << "启动贪吃蛇游戏..." << std::endl;
+        
+        SnakeGame snakeGame(&framebuffer);
+        snakeGame.Run();
         
     } else if (strcmp(command, "image") == 0) {
         // 图片显示模式
