@@ -15,13 +15,12 @@
 % 注意换行需要空一行
 % 详细记录实践过程，以下文字仅仅用于演示公式，图片，源代码的写法
 
-% 以下为本项目的实践记录（新增内容）
+% 实践记录
 \section{开发环境与依赖}\label{sec:env}
 \begin{itemize}
   \item 操作系统：Linux（含 WSL/虚拟机环境均可），使用 \texttt{/dev/fb0} 帧缓冲设备。
   \item 编译与工具：\texttt{g++} 与 \texttt{CMake}；编辑器 VSCode。
   \item 第三方库：\texttt{FFmpeg}（\texttt{libavformat}\,\texttt{libavcodec}\,\texttt{libavutil}\,\texttt{libswscale}）用于解码 JPG/PNG/BMP/GIF；不支持时回退 PPM 解析。
-  \item 报告编译：\texttt{xelatex} 多次编译（脚本 \texttt{make.bat}），输出位于 \texttt{tmp/} 目录。
 \end{itemize}
 
 \section{项目结构与模块}\label{sec:arch}
@@ -66,24 +65,24 @@
 \end{figure}
 
 \subsection{奥运五环功能}
-\textbf{实现}：五环按标准布局设置中心与半径；各环用 Bresenham 圆算法生成 8 对称点渲染。支持 WASD 平移、Q/E 旋转、-/= 缩放。
+\textbf{实现}：五环的各环用 Bresenham 圆算法生成并渲染。WASD 平移、Q/E 旋转、-/= 缩放。
 
 \textbf{运行}：\texttt{./program olympic}，按键交互控制。
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.85\textwidth]{\detokenize{[PC电脑]截图_2025-10-26_16-43-22_奥运五环功能.png}}
+  \includegraphics[width=.82\textwidth]{\detokenize{[PC电脑]截图_2025-10-26_16-43-22_奥运五环功能.png}}
   \caption{奥运五环：圆形点集叠加，支持交互变换}
 \end{figure}
 
 \subsection{贪吃蛇功能}
-\textbf{实现}：蛇体用 \texttt{deque} 存储段中心，移动在当前方向添加新头、非增长时弹尾；每段以小矩形填充生成点集。提供边界与自碰撞检测；支持 WASD 控制、P 暂停、R 重置。
+\textbf{实现}：蛇体用 \texttt{deque} 存储，支持边界与自碰撞检测； WASD 控制、P 暂停、R 重置。
 
 \textbf{运行}：\texttt{./program snake}，按键交互控制。
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=.85\textwidth]{\detokenize{[PC电脑]截图_2025-10-26_16-43-47_贪吃蛇功能.png}}
+  \includegraphics[width=.82\textwidth]{\detokenize{[PC电脑]截图_2025-10-26_16-43-47_贪吃蛇功能.png}}
   \caption{贪吃蛇：矩形段渲染与碰撞检测}
 \end{figure}
 
@@ -102,373 +101,10 @@
 \begin{itemize}
   \item FFmpeg 依赖链接失败：按库顺序补齐 \texttt{-lavformat -lavcodec -lavutil -lswscale} 并安装开发包后解决。
   \item 帧缓冲权限：\texttt{/dev/fb0} 默认需 root，使用 \texttt{sudo} 或配置 udev 规则放宽访问。
-  \item 中文文件名插图：文件名含 \texttt{[]} 与空格，使用 \texttt{\detokenize\{...\}} 包裹避免 \LaTeX 可选参数解析冲突。
   \item 交互输入：终端设为非阻塞（\texttt{termios}），渲染循环不中断；退出时恢复终端模式。
 \end{itemize}
 
 \section{运行与验证}\label{sec:run}
 同一帧缓冲画布运行各功能，统一清屏与边框绘制；截图如上所示。命令行用法见 \texttt{src/main.cpp} 帮助文本，效果与预期一致。
 
-\iffalse
-
-\section{注意事项(最终的报告将此段以及下文的例子都注释掉)}
-\begin{enumerate}
-	\item 黑白打印，单双面都可以，左上角用订书器装订
-    \item 简单记录实践过程
-    \item 详细记录实践中遇到的问题，如何解决的
-    \item 尽量不要贴源代码，而是转成文字说明。除非为了说明某个问题的解决，必须做前后不同代码的对比，注意按照下面的例子贴源代码
-    \item 实践结果图可以贴一两个
-    \item 程序设计的流程图，需求分析图，时序图等可以贴
-\end{enumerate}
-
-
-
-\section{数学公式的例子}
-% 行内公式，用两个$
-质能方程即描述质量与能量之间的当量关系的方程。质能方程$e=mc^2$, $e$表示能量，$m$代表质量，而$c$则表示光速，由爱因斯坦提出。
-
-
-勾股定理是一个基本的几何定理，指直角三角形的两条直角边的平方和等于斜边的平方，如方程\eqref{eq:pythagoraslaw}所示。中国古代称直角三角形为勾股形，并且直角边中较小者为勾，另一长直角边为股，斜边为弦，所以称这个定理为勾股定理，也有人称商高定理。
-\begin{equation}\label{eq:pythagoraslaw}
-    a^2 + b^2 = c^2  
-\end{equation}
-
-线性代数是数学的一个分支，它的研究对象是向量，向量空间（或称线性空间），线性变换和有限维的线性方程组。向量空间及其线性变换，以及与此相联系的矩阵（形如\eqref{eq:linearalgebra}）理论，构成了线性代数的中心内容。
-\begin{equation}\label{eq:linearalgebra}
-    \begin{pmatrix}
-        a_{11} & a_{12} & a_{13}\\ 
-        a_{21} & a_{22} & a_{23}\\  
-        a_{31} & a_{32} & a_{33}   
-    \end{pmatrix}  
-\end{equation}
-
-对于微观粒子的运动，可以用薛定谔方程来描述，
-\begin{equation}
-    \hat H \Psi = i \hbar \frac{\partial \Psi}{\partial t}
-\end{equation}
-其中$\hat H $为哈密顿算符，一般的从一个粒子的质量与这个粒子的势能函数，就可以得到这个方程，然后再根据给定的初值条件和边值条件，就可以解出我们需要的描述粒子运动状态的波函数来，然后波函数的绝对值平方就给出了粒子在一定时空位置的分布几率，这就是我们所能得到的关于粒子的最详尽的运动状态信息。
-
-\section{有序列表的例子} 
-
-\begin{enumerate}
-    \item 古希腊的斯多葛学派就相信部分决定论。他们认为我们不能控制事物，但是可以控制我们自己对待生活的方式。所以这个学派提倡随遇而安的生活态度。
-    \item 斯宾诺莎是用类似于几何的逻辑一步步推出整个哲学体系的。这意味着，他相信世间万物之间都有着严格的逻辑关系。这必然也会导致决定论。
-    \item 休谟认为他之前的经验主义者和理性主义者都存在根本缺陷。休谟的回答是，不知道就不知道，没关系。我们能得到的经验就是面前的生活，在有明确的证据证明面前的生活都是幻觉之前，我们就照着自己平时的经验正常生活下去就可以了。我们没必要也没能力去无限地怀疑世界。
-\end{enumerate}
- 
-
-有序列表嵌套，控制缩进，唐诗，宋词，元曲举例：
-\begin{enumerate}
-    \item 唐诗
-        \begin{enumerate}[itemindent=4em] 
-            \item 蜀道难(李白)噫吁嚱，危乎高哉！蜀道之难，难于上青天！
-            \item 春晓(孟浩然)春眠不觉晓，处处闻啼鸟。夜来风雨声，花落知多少。
-        \end{enumerate}
-    \item 宋词
-        \begin{enumerate}[itemindent=4em]
-            \item 破阵子(辛弃疾)醉里挑灯看剑，梦回吹角连营。八百里分麾下炙，五十弦翻塞外声，沙场秋点兵。
-            \item 赤壁怀古(苏轼)大江东去，浪淘尽，千古风流人物。故垒西边，人道是，三国周郎赤壁。
-        \end{enumerate}
-    \item 元曲
-        \begin{enumerate}[itemindent=4em]
-            \item 窦娥冤(关汉卿)花有重开日，人无再少年。不须长富贵，安乐是神仙。老身蔡婆婆是也。楚州人氏，嫡亲三口儿家属。
-            \item 秋思(马致远)枯藤老树昏鸦，小桥流水人家，古道西风瘦马。夕阳西下，断肠人在天涯。
-        \end{enumerate}
-\end{enumerate}
-
-\section{无序列表的例子}
-
-下面是一个无序列表的例子
-\begin{itemize}
-    \item 系统架构设计；
-    \item 功能模块的设计与实现；
-    \item web端的编程与实现；
-    \item 数据库设计。
-\end{itemize}
-
-无序列表嵌套，控制其中的缩进
-\begin{itemize}
-    \item 系统架构设计；
-    \begin{itemize}[itemindent=4em]
-        \item 系统架构设计；
-        \item 功能模块的设计与实现；
-        \item web端的编程与实现；
-        \item 数据库设计。
-    \end{itemize}
-    \item 功能模块的设计与实现；
-    \item web端的编程与实现；
-    \item 数据库设计。
-\end{itemize}
-
-\section{图片的例子}
-
-注意图片要在文中引用
-
-引用图片的例子，如图\ref{fig:single}所示。
-
-% xelatex 支持的图片格式
-% 矢量图 .pdf .eps 
-% 位图 .jpg .png .bmp
-
-% figure环境
-% [H] 浮动优先级，当前位置，但尺寸过大的浮动体可能使得分页比较困难
-
-% [htbp!] 浮动方式 请参考一份（不太）简短的 LATEX 2" 介绍，3.9节
-% h 当前位置（代码所处的上下文）
-% t 顶部
-% b 底部
-% p 单独成页
-% ! 在决定位置时忽视限制
-% 排版位置的选取与参数里符号的顺序无关， 
-% LATEX 总是以 h-t-b-p 的优先级顺序决定浮动体位置。
-% 也就是说 [!htp] 和 [ph!t] 没有区别。
-
-\begin{figure}[H]
-	% 居中
-	\centering 
-	% width=.5\textwidth 文档宽度的0.5
-	% fig1图片放在img目录下，在此处引用无需img/前缀和图片格式后缀(png, jpg等)
-	\includegraphics[width=.5\textwidth]{fig1} 
-	% label紧接caption之后，用于引用
-	\caption{这是一个很长很长的图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字图的名字}
-	\label{fig:single}
-\end{figure}
-
-两个图并排，如图\ref{fig:double}所示。
-
-% 两个图并排
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=.4\textwidth]{fig2}
-    \quad % 横向两图的间距
-    \includegraphics[width=.4\textwidth]{fig2} 
-	\caption{两个图}
-	\label{fig:double}
-\end{figure}
-
-四个图并排，如图\ref{fig:fourimg}所示。
-
-% 四个图并排
-\begin{figure}[H]
-	\centering
-    \includegraphics[width=.4\textwidth]{fig3}
-    \quad 
-	\includegraphics[width=.4\textwidth]{fig3} 
-	% 空一行，分两行排版
-
-	% 垂直间距 ex当前字号下小写字母 x 的高度
-	\vspace{1ex} 
-	\includegraphics[width=.4\textwidth]{fig3}
-	\quad
-	\includegraphics[width=.4\textwidth]{fig3}
-	\caption{四个图}
-	\label{fig:fourimg}
-\end{figure}
-
-
-\section{表格的例子}
-
-% table环境
-% [H] 浮动优先级，当前位置，但尺寸过大的浮动体可能使得分页比较困难
-
-% [htbp!] 浮动方式 请参考一份（不太）简短的 LATEX 2" 介绍，3.9节
-% h 当前位置（代码所处的上下文）
-% t 顶部
-% b 底部
-% p 单独成页
-% ! 在决定位置时忽视限制
-% 排版位置的选取与参数里符号的顺序无关， 
-% LATEX 总是以 h-t-b-p 的优先级顺序决定浮动体位置。
-% 也就是说 [!htp] 和 [ph!t] 没有区别。
-
-完全手动完成的表格，如表\ref{tab:tab1}所示。 % 通过label引用表格
-\begin{table}[H] % H浮动优先级，当前位置
-        \zihao{5} % 字号5
-    \centering  % 居中
-    \caption{一个表格}  % 表格标题
-    \label{tab:tab1}  % 用于在正文中引用的label
-    % 字母的个数对应列数，| 代表分割线
-    % l代表左对齐，c代表居中，r代表右对齐
-    \begin{tabular}{|c|c|c|c|}   
-        \hline  % 表格的横线 
-        1 & 2 & 3 & 4 \\  % 表格中的内容，用&分开，\\表示下一行
-        \hline 
-        0.1 & 0.2 & 0.3 & 0.4 \\
-        \hline
-    \end{tabular}
-\end{table}
-
-以下编辑器(TexStudio)的表格向导生成的表格，如表\ref{tab:tab2}所示。% 通过label引用表格
-\begin{table}[H] % H浮动优先级，当前位置
-        \zihao{5} % 字号5
-	\centering  % 居中
-	\caption{诗词曲} % 表格标题  
-    \label{tab:tab2}   % 用于在正文中引用的label
-    % 字母的个数对应列数，| 代表分割线
-    % l代表左对齐，c代表居中，r代表右对齐
-    \begin{tabular}{|c|c|c|c|}
-        \hline  % 表格的横线 
-          & 唐诗 & 宋词 & 元曲 \\ 
-        \hline 
-        1 & 李白 & 苏轼 & 关汉卿 \\ 
-        \hline 
-        2 & 白居易 & 辛弃疾 & 马致远 \\ 
-        \hline 
-        3 & 杜甫 & 李清照 & 张可久 \\ 
-        \hline 
-        4 & 王维 & 陆游 & 张养浩 \\ 
-        \hline 
-        5 & 孟浩然 & 欧阳修 & 徐再思 \\ 
-        \hline 
-    \end{tabular}  
-\end{table}
-
-嵌套表格，如表\ref{tab:tab3}所示。% 通过label引用表格
-\begin{table}[H] % H浮动优先级，当前位置
-        \zihao{5} % 字号5
-	\centering  % 居中
-	\caption{嵌套表格} % 表格标题  
-    \label{tab:tab3}  % 用于在正文中引用的label
-    % 字母的个数对应列数，| 代表分割线
-    % l代表左对齐，c代表居中，r代表右对齐
-    \begin{tabular}{|c|c|c|}
-        \hline  % 表格的横线 
-        a & b & c \\ \hline
-        a & \multicolumn{1}{@{}c@{}|}
-        {\begin{tabular}
-{c|c}
-            e & f \\ \hline
-            e & f \\
-        \end{tabular}}
-        & c \\ \hline
-        a & b & c \\ \hline
-    \end{tabular}
-\end{table}
-
-控制列宽的表格，如表\ref{tab:tab4},表\ref{tab:tab5}所示。% 通过label引用表格
-\begin{table}[H] % H浮动优先级，当前位置
-    \zihao{5} % 字号5
-    \centering  % 居中
-    \caption{控制列宽的表格} % 表格标题  
-    \label{tab:tab4}  % 用于在正文中引用的label 
-    \begin{tabularx}{30em}  % 总列宽 30em
-    % 多个 X 列格式平均分配列宽
-        {|*{4}{>{\centering\arraybackslash}X|}}
-        \hline  % 表格的横线 
-        A & B & C & D \\ \hline
-        a & b & c & d \\ \hline
-    \end{tabularx}
-\end{table}
-
-\begin{table}[H] % H浮动优先级，当前位置
-    \zihao{5} % 字号5
-    \centering  % 居中
-    \caption{诗词曲}  % 表格标题 
-    \label{tab:tab5}  % 用于在正文中引用的label 
-    % 总列宽 30em
-    \begin{tabularx}{30em} 
-    % 多个 X 列格式平均分配列宽
-        {|*{4}{>{\centering\arraybackslash}X|}}
-        \hline  % 表格的横线 
-          & 唐诗 & 宋词 & 元曲 \\ 
-        \hline 
-        1 & 李白 & 苏轼 & 关汉卿 \\ 
-        \hline 
-        2 & 白居易 & 辛弃疾 & 马致远 \\ 
-        \hline 
-        3 & 杜甫 & 李清照 & 张可久 \\ 
-        \hline 
-        4 & 王维 & 陆游 & 张养浩 \\ 
-        \hline 
-        5 & 孟浩然 & 欧阳修 & 徐再思 \\ 
-        \hline 
-    \end{tabularx}  
-\end{table}
-
-控制行距的表格，如表\ref{tab:tab6}所示。% 通过label引用表格
-\begin{table}[H] % H浮动优先级，当前位置
-    \zihao{5} % 字号5
-    \centering  % 居中
-    \caption{控制行距的表格}  % 表格标题 
-    \label{tab:tab6}  % 用于在正文中引用的label 
-    \renewcommand\arraystretch{2.8} % 行距控制
-    % 字母的个数对应列数，| 代表分割线
-    % l代表左对齐，c代表居中，r代表右对齐
-    \begin{tabular} {|c|c|c|c|}
-        \hline % 表格的横线 
-        A & B & C & D \\ \hline
-        a & b & c & d \\ \hline
-    \end{tabular}
-\end{table}
-
-表格单行内容太长，直接换行，如表\ref{tab:tab7}，表\ref{tab:tab8}所示。% 通过label引用表格
-\begin{table}[H] % H浮动优先级，当前位置
-    \zihao{5} % 字号5
-    \centering  % 居中
-    \caption{单行内容太长直接换行}  % 表格标题 
-    \label{tab:tab7}   % 用于在正文中引用的label
-    % 字母的个数对应列数，| 代表分割线
-    % l代表左对齐，c代表居中，r代表右对齐
-    \begin{tabular}{|c|c|c|c|} 
-        \hline  % 表格的横线 
-          & 唐诗 & 宋词 & 元曲 \\ 
-        \hline 
-        1 & 李白李白李白 & 苏轼苏轼苏轼苏轼 & 关汉卿关汉卿关汉卿关汉卿 \\
-         & 李白李白李白李白 & 苏苏轼苏轼轼 & 关汉卿关汉卿关汉卿 \\
-        \hline 
-        2 & 白居易 & 辛弃疾 & 马致远 \\ 
-        \hline 
-    \end{tabular}  
-\end{table}
-
-
-\begin{table}[H] % H浮动优先级，当前位置
-    \zihao{5} % 字号5
-    \centering  % 居中
-    \caption{控制列宽单行内容太长直接换行}  % 表格标题 
-    \label{tab:tab8}   % 用于在正文中引用的label 
-    \begin{tabularx}{30em} % 总列宽 30em
-    % 多个 X 列格式平均分配列宽
-        {|*{4}{>{\centering\arraybackslash}X|}}
-        \hline  % 表格的横线 
-          & 唐诗 & 宋词 & 元曲 \\ 
-        \hline 
-        1 & 李白李白李白 & 苏轼苏轼苏轼苏轼 & 关汉卿关汉卿关汉卿关汉卿 \\
-         & 李白李白李白李白 & 苏苏轼苏轼轼 & 关汉卿关汉卿关汉卿 \\
-        \hline 
-        2 & 白居易 & 辛弃疾 & 马致远 \\ 
-        \hline 
-    \end{tabularx}  
-\end{table}
-
-\section{源代码的例子}
-
-C源代码
-\begin{clan}
-    #include <stdio.h>  
-    int main()                  //main 入口函数  
-    {  
-        printf("Hello,World!"); //printf 函数打印  
-        return 1;               //函数返回值  
-    }   
-\end{clan}
-
-
-
-C++源代码
-\begin{cpp}
-    #include <iostream>               //std::cout 要用到的头文件  
-    #include <stdio.h>                //标准输入输出头文件  
-
-    int main()  
-    {  
-        printf("Hello,World!--Way 1\n");    //printf 语句打印  
-        puts("Hello,World!--Way 2");        //puts 语句  
-        puts("Hello," " " "World!--Way 3"); //字符串拼接  
-        std::cout << "Hello,World!--Way 4" << std::endl; //C++ 教科书上写法  
-        return 1;                                        //作为注释  
-    }  
-\end{cpp}
-\fi
- 
  

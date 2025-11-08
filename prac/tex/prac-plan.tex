@@ -21,33 +21,41 @@
 
 % 实践安排
 \practiceschedule{
-    完成一个基于 framebuffer 的绘图系统，
-    以模块化方式实现并验证以下功能：
-    （1）图片显示（含 GIF 多帧）；
-    （2）分形龙生成与绘制；
-    （3）奥运五环布局与交互变换；
-    （4）贪吃蛇游戏；
-    （5）冒泡排序可视化与统计。最终提交可运行程序与实践报告。
+    完成一个基于 framebuffer 的绘图系统，以模块化方式实现以下功能：
+    \begin{enumerate}[label=(\arabic*)]
+        \item 图片显示（含 GIF 多帧）；
+        \item 分形龙生成与绘制；
+        \item 奥运五环布局与交互变换；
+        \item 贪吃蛇游戏；
+        \item 冒泡排序可视化与统计。
+    \end{enumerate}
+    最终提交可运行程序与实践报告。
 }
 
 % 实践内容
 \practicework{
-    第1天：完成 framebuffer 初始化与像素绘制，封装 \texttt{CFramebuffer}；
-    第2天：实现 \texttt{Geometry}/\texttt{Polyline}/\texttt{Circle} 基类与 Bresenham 圆；
-    第3天：集成 FFmpeg，完成图片显示模块（含 GIF 多帧）与截图验证；
-    第4天：实现分形龙模块与参数化控制，编写实践记录；
-    第5天：实现奥运五环与交互（平移/旋转/缩放），完善文档；
-    第6天：完成贪吃蛇与碰撞检测；
-    第7天：实现冒泡排序可视化与统计，统一风格与边框；
-    第8天：整理实践报告，编译并检查排版与截图。
+    \begin{enumerate}[label=第\arabic*天:]
+        \vspace{1em}
+        \item 完成 framebuffer 初始化与像素绘制，封装 \texttt{CFramebuffer}；
+        \item 实现 \texttt{Geometry}/\texttt{Polyline}/\texttt{Circle} 基类与 Bresenham 圆；
+        \item 集成 FFmpeg，完成图片显示模块（含 GIF 多帧）；
+        \item 实现分形龙模块与参数化控制，编写实践记录；
+        \item 实现奥运五环与交互（平移/旋转/缩放），完善文档；
+        \item 完成贪吃蛇与碰撞检测；
+        \item 实现冒泡排序可视化与统计，统一风格与边框；
+        \item 整理实践报告，编译并检查排版与截图。
+        \vspace{1em}
+    \end{enumerate}
 }
 
 % 实践指导书
 \practiceguide{
-    [1] Linux 系统 \texttt{man} 手册；
-    [2] FFmpeg 官方文档；
-    [3] Linux 系统及编程基础，清华大学出版社；
-    [4] XeLaTeX 文档。
+    \begin{enumerate}[label=\arabic*.]
+        \item Linux 系统 \texttt{man} 手册；
+        \item FFmpeg 官方文档；
+        \item Linux 系统及编程基础，清华大学出版社；
+        \item XeLaTeX 文档。
+    \end{enumerate}
 }
 
 
