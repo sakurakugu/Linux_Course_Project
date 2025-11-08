@@ -191,7 +191,7 @@ make
 
 ## WSL 支持
 
-项目完全支持在 Windows WSL 环境中编译和开发。
+项目完全支持在 Windows WSL 环境中编译和开发（但不支持运行（不显示））
 
 ### WSL 环境配置
 ```bash
@@ -200,9 +200,9 @@ chmod +x wsl-setup.sh
 ```
 
 ### 注意事项
-- WSL 环境中可能无法直接访问 framebuffer 设备
-- 建议在真实 Linux 系统中运行图形程序
-- 或者配置 WSLg/X11 转发来支持图形显示
+- WSL 环境中无法直接访问 framebuffer 设备
+- 要在 Linux 系统中运行图形程序
+- 或者通过转发来支持图形显示
 
 ## 技术特点
 

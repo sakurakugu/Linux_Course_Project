@@ -1,0 +1,23 @@
+%-------------------------------------------------
+% FileName: main.tex
+% Author: Safin (zhaoqid@zsc.edu.cn)
+% Version: 0.1
+% Date: 2021-11-21
+% Description: 主文档，包含其它tex文档
+%     如果要增加新的章节，请先到 tex目录增加文件，再input
+%     如果附录没有内容，就注释掉
+% Others: 编译方法参考 make.sh
+%         适配TeXLive2020
+%         必须用 [UTF-8无BOM] 编码
+% History: origin
+%-------------------------------------------------
+
+\documentclass{style/zscthesis} % 自定义thesis
+
+\begin{document} 
+    \input{tex/frontinfo.tex}     % 封面
+    \input{tex/prac-plan.tex}     % 实践计划
+    \input{tex/prac-note.tex}     % 实践记录
+    \input{tex/prac-sum.tex}      % 实践总结
+    \input{tex/evaluation.tex}    % 成绩评定(不要改动)
+\end{document}
